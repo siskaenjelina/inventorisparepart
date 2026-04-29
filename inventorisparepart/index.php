@@ -61,9 +61,7 @@
                 </form>
 
 
-                <div class="auth-links">
-                    <p>Belum punya akun admin? <a href="register.php">Daftar sekarang</a></p>
-                </div>
+
 
                 <div class="login-footer">
                     <p>Sistem Informasi &copy; <?php echo date('Y'); ?> Siska Maju Motor</p>
