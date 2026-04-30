@@ -130,23 +130,26 @@ while($c=$categories->fetch_assoc()) $cats_arr[] = $c;
     <!-- Filter Bar -->
     <form method="GET" class="filter-bar">
       <input type="hidden" name="tab" value="stok">
-      <select name="cat" class="form-control" onchange="this.form.submit()">
-        <option value="">Semua Kategori</option>
-        <?php foreach($cats_arr as $c): ?>
-        <option value="<?= $c['id'] ?>" <?= $cat_f==$c['id']?'selected':'' ?>><?= htmlspecialchars($c['name']) ?></option>
-        <?php endforeach; ?>
-      </select>
-      <div class="search-wrap">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" name="q" class="form-control" placeholder="Cari nama / spesifikasi..." value="<?= htmlspecialchars($search) ?>">
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;width:100%;align-items:center;">
+        <select name="cat" class="form-control" onchange="this.form.submit()" style="flex:1;min-width:140px;">
+          <option value="">Semua Kategori</option>
+          <?php foreach($cats_arr as $c): ?>
+          <option value="<?= $c['id'] ?>" <?= $cat_f==$c['id']?'selected':'' ?>><?= htmlspecialchars($c['name']) ?></option>
+          <?php endforeach; ?>
+        </select>
+        <div class="search-wrap" style="flex:2;min-width:180px;">
+          <input type="text" name="q" class="form-control" placeholder="Cari nama / spesifikasi..." value="<?= htmlspecialchars($search) ?>">
+        </div>
+        <div style="display:flex;gap:.4rem;">
+          <button type="submit" class="btn btn-outline btn-sm">Cari</button>
+          <?php if($cat_f||$search): ?><a href="spareparts.php?tab=stok" class="btn btn-outline btn-sm">Reset</a><?php endif; ?>
+        </div>
       </div>
-      <button type="submit" class="btn btn-outline btn-sm">Terapkan</button>
-      <?php if($cat_f||$search): ?><a href="spareparts.php?tab=stok" class="btn btn-outline btn-sm">Reset</a><?php endif; ?>
     </form>
 
     <div class="table-wrap">
     <table class="sp-table">
-      <thead><tr><th>#</th><th>Merk / Tipe Motor</th><th>Spesifikasi</th><th>Kategori</th><th>Harga Jual</th><th>Stok</th><th>Min Stok</th><th>Status</th></tr></thead>
+      <thead><tr><th>ID</th><th>Merk / Tipe Motor</th><th>Spesifikasi</th><th>Kategori</th><th>Harga Jual</th><th>Stok</th><th>Min Stok</th><th>Status</th></tr></thead>
       <tbody>
       <?php
       $no=1;
@@ -157,14 +160,14 @@ while($c=$categories->fetch_assoc()) $cats_arr[] = $c;
           $blbl= $row['stok']==0?'Habis':($row['stok']<=$row['min_stok']?'Kritis':'Aman');
       ?>
       <tr>
-        <td style="color:var(--text-muted)"><?= $no++ ?></td>
-        <td><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong></td>
-        <td><?= htmlspecialchars($row['spek']) ?></td>
-        <td><?= $row['cat_name'] ? '<span class="badge badge-primary">'.htmlspecialchars($row['cat_name']).'</span>' : '<span style="color:var(--text-muted)">—</span>' ?></td>
-        <td>Rp <?= number_format($row['harga_jual'],0,'.','.') ?></td>
-        <td><span class="stok-num <?= $cls ?>"><?= $row['stok'] ?></span></td>
-        <td style="color:var(--text-muted)"><?= $row['min_stok'] ?></td>
-        <td><span class="badge <?= $bcls ?>"><?= $blbl ?></span></td>
+        <td data-label="ID"><?= $no++ ?></td>
+        <td data-label="Merk / Tipe Motor"><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong></td>
+        <td data-label="Spesifikasi"><?= htmlspecialchars($row['spek']) ?></td>
+        <td data-label="Kategori"><?= $row['cat_name'] ? '<span class="badge badge-primary">'.htmlspecialchars($row['cat_name']).'</span>' : '<span style="color:var(--text-muted)">—</span>' ?></td>
+        <td data-label="Harga Jual">Rp <?= number_format($row['harga_jual'],0,'.','.') ?></td>
+        <td data-label="Stok"><span class="stok-num <?= $cls ?>"><?= $row['stok'] ?></span></td>
+        <td data-label="Min Stok" style="color:var(--text-muted)"><?= $row['min_stok'] ?></td>
+        <td data-label="Status"><span class="badge <?= $bcls ?>"><?= $blbl ?></span></td>
       </tr>
       <?php endwhile; else: ?>
       <tr class="empty-row"><td colspan="8">Tidak ada data yang sesuai filter.</td></tr>
@@ -188,7 +191,7 @@ while($c=$categories->fetch_assoc()) $cats_arr[] = $c;
 
     <div class="table-wrap">
     <table>
-      <thead><tr><th>#</th><th>Merk / Tipe Motor</th><th>Spesifikasi</th><th>Kategori</th><th>Harga Modal</th><th>Harga Jual</th><th>Stok</th><th style="text-align:center">Aksi</th></tr></thead>
+      <thead><tr><th>ID</th><th>Merk / Tipe Motor</th><th>Spesifikasi</th><th>Kategori</th><th>Harga Modal</th><th>Harga Jual</th><th>Stok</th><th style="text-align:center">Aksi</th></tr></thead>
       <tbody>
       <?php
       $conn->query("SELECT 1"); // reset
@@ -198,14 +201,14 @@ while($c=$categories->fetch_assoc()) $cats_arr[] = $c;
         while($row=$all->fetch_assoc()):
       ?>
       <tr>
-        <td style="color:var(--text-muted)"><?= $no++ ?></td>
-        <td><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong></td>
-        <td><?= htmlspecialchars($row['spek']) ?></td>
-        <td><?= $row['cat_name'] ? htmlspecialchars($row['cat_name']) : '<span style="color:var(--text-muted)">—</span>' ?></td>
-        <td>Rp <?= number_format($row['harga_modal'],0,'.','.') ?></td>
-        <td>Rp <?= number_format($row['harga_jual'],0,'.','.') ?></td>
-        <td><strong><?= $row['stok'] ?></strong></td>
-        <td>
+        <td data-label="ID"><?= $no++ ?></td>
+        <td data-label="Merk / Tipe Motor"><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong></td>
+        <td data-label="Spesifikasi"><?= htmlspecialchars($row['spek']) ?></td>
+        <td data-label="Kategori"><?= $row['cat_name'] ? htmlspecialchars($row['cat_name']) : '<span style="color:var(--text-muted)">—</span>' ?></td>
+        <td data-label="Harga Modal">Rp <?= number_format($row['harga_modal'],0,'.','.') ?></td>
+        <td data-label="Harga Jual">Rp <?= number_format($row['harga_jual'],0,'.','.') ?></td>
+        <td data-label="Stok"><strong><?= $row['stok'] ?></strong></td>
+        <td data-label="Aksi">
           <div class="action-btns" style="justify-content:center">
             <button class="btn btn-sm btn-warning" onclick="openEdit(<?= $row['id'] ?>,'<?= addslashes($row['merk_tipe_motor']) ?>','<?= addslashes($row['spek']) ?>',<?= $row['harga_modal'] ?>,<?= $row['harga_jual'] ?>,<?= $row['stok'] ?>,<?= $row['min_stok'] ?>,<?= (int)$row['category_id'] ?>)">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit

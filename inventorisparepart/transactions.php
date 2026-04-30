@@ -102,9 +102,10 @@ $total_trx     = $conn->query("SELECT COUNT(id) as t FROM transactions_out")->fe
         <div class="content-card">
             <div class="card-header">
                 <h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Riwayat Transaksi</h2>
-                <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
-                    <form method="GET" style="display:flex;gap:.5rem;align-items:center">
-                        <input type="date" name="date" class="form-control" style="width:auto" value="<?= htmlspecialchars($filter_date) ?>" onchange="this.form.submit()">
+                <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center; width: 100%;">
+                    <form method="GET" style="display:flex;gap:.5rem;align-items:center; flex: 1; min-width: 200px;">
+                        <label for="filter_date" style="font-size:0.85rem;font-weight:600;color:var(--text-muted);white-space:nowrap;">Filter Tanggal:</label>
+                        <input type="date" id="filter_date" name="date" class="form-control" style="flex:1" value="<?= htmlspecialchars($filter_date) ?>" onchange="this.form.submit()">
                         <?php if($filter_date): ?><a href="transactions.php" class="btn btn-outline btn-sm">Reset</a><?php endif; ?>
                     </form>
                     <a href="reports.php" class="btn btn-outline btn-sm">
@@ -120,18 +121,18 @@ $total_trx     = $conn->query("SELECT COUNT(id) as t FROM transactions_out")->fe
             <div class="table-wrap">
             <table>
                 <thead>
-                    <tr><th>#</th><th>Tanggal</th><th>Sparepart</th><th>Mekanik</th><th>Qty</th><th>Harga Satuan</th><th>Total</th></tr>
+                    <tr><th>ID</th><th>Tanggal</th><th>Sparepart</th><th>Mekanik</th><th>Qty</th><th>Harga Satuan</th><th>Total</th></tr>
                 </thead>
                 <tbody>
                 <?php if ($transactions && $transactions->num_rows > 0): $no=1; while($row=$transactions->fetch_assoc()): ?>
                 <tr>
-                    <td style="color:var(--text-muted)"><?= $no++ ?></td>
-                    <td><?= date('d M Y', strtotime($row['transaction_date'])) ?></td>
-                    <td><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong><br><small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
-                    <td><?= htmlspecialchars($row['mechanic_name'] ?: '-') ?></td>
-                    <td><span class="badge badge-info"><?= $row['quantity'] ?></span></td>
-                    <td>Rp <?= number_format($row['selling_price'],0,'.','.') ?></td>
-                    <td><strong>Rp <?= number_format($row['selling_price']*$row['quantity'],0,'.','.') ?></strong></td>
+                    <td data-label="ID"><?= $no++ ?></td>
+                    <td data-label="Tanggal"><?= date('d M Y', strtotime($row['transaction_date'])) ?></td>
+                    <td data-label="Sparepart"><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong><br><small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
+                    <td data-label="Mekanik"><?= htmlspecialchars($row['mechanic_name'] ?: '-') ?></td>
+                    <td data-label="Qty"><span class="badge badge-info"><?= $row['quantity'] ?></span></td>
+                    <td data-label="Harga Satuan">Rp <?= number_format($row['selling_price'],0,'.','.') ?></td>
+                    <td data-label="Total"><strong>Rp <?= number_format($row['selling_price']*$row['quantity'],0,'.','.') ?></strong></td>
                 </tr>
                 <?php endwhile; else: ?>
                 <tr><td colspan="7"><div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Belum ada transaksi<?= $filter_date ? ' pada tanggal ini' : '' ?>.</p></div></td></tr>

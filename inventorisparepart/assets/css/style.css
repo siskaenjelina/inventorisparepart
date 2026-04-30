@@ -349,51 +349,196 @@ body {
 
     .split-left {
         flex: none;
-        height: 35vh;
-        min-height: 250px;
+        height: 30vh;
+        min-height: 220px;
         padding: 1rem;
     }
 
     .brand-logo {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 1rem;
+        width: 90px;
+        height: 90px;
+        margin-bottom: 0.5rem;
     }
 
     .brand-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
 
     .brand-subtitle {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .split-right {
         flex: 1;
         align-items: flex-start;
-        padding-top: 3rem;
+        padding-top: 2rem;
     }
 
     .theme-toggle {
         top: 1rem;
         right: 1rem;
+        width: 38px;
+        height: 38px;
     }
 }
 
-@media (max-width: 480px) {
-    .login-wrapper {
-        padding: 1.5rem;
-        box-shadow: none;
+@media (max-width: 640px) {
+    /* Unified Spatial Background */
+    .split-container {
+        flex-direction: column;
+        background: var(--bg-color-left); /* Deep spatial background */
+    }
+
+    /* Transparent left side */
+    .split-left {
         background: transparent;
+        height: auto;
+        min-height: 140px;
+        padding: 1.5rem 1rem 0;
+        z-index: 2;
     }
 
+    .brand-logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .brand-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .brand-subtitle {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Transparent right side */
     .split-right {
-        background-color: var(--bg-color-right);
+        background: transparent;
+        align-items: center;
+        padding: 1rem;
+        z-index: 2;
+        padding-bottom: 2rem;
     }
 
-    :root[data-theme="dark"] .login-wrapper {
-        box-shadow: none;
+    /* Glassmorphism Wrapper */
+    .login-wrapper {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        max-width: 100%;
+        padding: 2rem 1.5rem;
+        border-radius: 24px;
+        color: #fff;
     }
+    
+    /* Dark mode override adjustment for mobile */
+    :root[data-theme="dark"] .login-wrapper {
+        background: rgba(15, 23, 42, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .login-header {
+        margin-bottom: 1.75rem;
+    }
+
+    .login-header h2 {
+        font-size: 1.6rem;
+        color: #fff;
+    }
+
+    .login-header p {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .input-group label {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Inputs in glass card */
+    .input-field input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-size: 16px; /* Prevent iOS zoom */
+    }
+
+    .input-field input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .input-field input:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .input-field svg {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .input-field input:focus + svg,
+    .input-field input:not(:placeholder-shown) + svg {
+        color: #fff;
+    }
+
+    .btn-login {
+        padding: 1rem;
+        font-size: 1.05rem;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-login:hover, .btn-login:focus {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .login-footer p {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .theme-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
+    }
+}
+
+@media (max-width: 400px) {
+    .split-left {
+        min-height: 120px;
+        padding-top: 1rem;
+    }
+
+    .brand-logo { width: 65px; height: 65px; }
+    .brand-title { font-size: 1.35rem; }
+
+    .split-right { padding: 0.5rem 0.85rem; }
+
+    .login-wrapper {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .login-header h2 { font-size: 1.4rem; }
 }
 
 /* ==========================================================================

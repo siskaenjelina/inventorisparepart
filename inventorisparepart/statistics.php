@@ -148,18 +148,20 @@ $habis       = $conn->query("SELECT COUNT(id) as t FROM spareparts WHERE stok = 
                     else                       $rec = '✅ Stok cukup';
                 ?>
                 <tr>
-                    <td><strong><?= htmlspecialchars($p['nama']) ?></strong></td>
-                    <td>
-                        <strong><?= $p['stok'] ?></strong>
-                        <div class="progress-track" style="margin-top:4px;height:5px">
-                            <div class="progress-fill" style="width:<?= $pct ?>%;background:<?= $pct_color ?>"></div>
+                    <td data-label="Sparepart"><strong><?= htmlspecialchars($p['nama']) ?></strong></td>
+                    <td data-label="Stok Saat Ini">
+                        <div style="display:flex; flex-direction:column; align-items:flex-end; width:50%;">
+                            <strong><?= $p['stok'] ?></strong>
+                            <div class="progress-track" style="margin-top:4px; height:5px; width:100%;">
+                                <div class="progress-fill" style="width:<?= $pct ?>%;background:<?= $pct_color ?>"></div>
+                            </div>
                         </div>
                     </td>
-                    <td><?= $p['min_stok'] ?></td>
-                    <td><?= $p['weekly_avg'] > 0 ? $p['weekly_avg'].' unit' : '<span style="color:var(--text-muted)">-</span>' ?></td>
-                    <td><?= $p['days_left'] >= 999 ? '<span style="color:var(--text-muted)">-</span>' : $p['days_left'].' hari' ?></td>
-                    <td><span class="badge <?= $s_cls ?>"><?= $s_lbl ?></span></td>
-                    <td style="font-size:.82rem"><?= $rec ?></td>
+                    <td data-label="Min Stok"><?= $p['min_stok'] ?></td>
+                    <td data-label="Avg/Minggu"><?= $p['weekly_avg'] > 0 ? $p['weekly_avg'].' unit' : '<span style="color:var(--text-muted)">-</span>' ?></td>
+                    <td data-label="Sisa Hari"><?= $p['days_left'] >= 999 ? '<span style="color:var(--text-muted)">-</span>' : $p['days_left'].' hari' ?></td>
+                    <td data-label="Status Stok"><span class="badge <?= $s_cls ?>"><?= $s_lbl ?></span></td>
+                    <td data-label="Rekomendasi" style="font-size:.82rem"><?= $rec ?></td>
                 </tr>
                 <?php endforeach; else: ?>
                 <tr><td colspan="7"><div class="empty-state"><p>Belum ada data sparepart.</p></div></td></tr>

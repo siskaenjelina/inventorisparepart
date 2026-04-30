@@ -98,16 +98,16 @@ $total_cat = $conn->query("SELECT COUNT(id) as t FROM categories")->fetch_assoc(
             <div class="table-wrap">
                 <table>
                     <thead>
-                        <tr><th>#</th><th>Nama Kategori</th><th>Deskripsi</th><th>Dibuat</th><th style="text-align:center">Aksi</th></tr>
+                        <tr><th>ID</th><th>Nama Kategori</th><th>Deskripsi</th><th>Dibuat</th><th style="text-align:center">Aksi</th></tr>
                     </thead>
                     <tbody>
                     <?php if ($cats && $cats->num_rows > 0): $no=1; while($row=$cats->fetch_assoc()): ?>
                     <tr>
-                        <td style="color:var(--text-muted)"><?= $no++ ?></td>
-                        <td><span class="badge badge-primary"><?= htmlspecialchars($row['name']) ?></span></td>
-                        <td style="color:var(--text-muted)"><?= htmlspecialchars($row['description'] ?: '-') ?></td>
-                        <td style="color:var(--text-muted)"><?= date('d M Y', strtotime($row['created_at'])) ?></td>
-                        <td>
+                        <td data-label="ID"><?= $no++ ?></td>
+                        <td data-label="Nama Kategori"><span class="badge badge-primary"><?= htmlspecialchars($row['name']) ?></span></td>
+                        <td data-label="Deskripsi" style="color:var(--text-muted)"><?= htmlspecialchars($row['description'] ?: '-') ?></td>
+                        <td data-label="Dibuat" style="color:var(--text-muted)"><?= date('d M Y', strtotime($row['created_at'])) ?></td>
+                        <td data-label="Aksi">
                             <div class="action-btns" style="justify-content:center">
                                 <button class="btn btn-sm btn-warning" onclick="openEditModal(<?= $row['id'] ?>, '<?= addslashes($row['name']) ?>', '<?= addslashes($row['description']) ?>')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>

@@ -150,10 +150,10 @@ $top_items = $conn->query("
                 <tbody>
                 <?php $rank=1; while($r=$top_items->fetch_assoc()): ?>
                 <tr>
-                    <td><span class="badge badge-primary">#<?= $rank++ ?></span></td>
-                    <td><strong><?= htmlspecialchars($r['merk_tipe_motor']) ?></strong> – <?= htmlspecialchars($r['spek']) ?></td>
-                    <td><?= $r['total_qty'] ?> unit</td>
-                    <td>Rp <?= number_format($r['total_rev'],0,'.','.') ?></td>
+                    <td data-label="Rank"><span class="badge badge-primary">#<?= $rank++ ?></span></td>
+                    <td data-label="Sparepart"><strong><?= htmlspecialchars($r['merk_tipe_motor']) ?></strong> – <?= htmlspecialchars($r['spek']) ?></td>
+                    <td data-label="Total Qty Terjual"><?= $r['total_qty'] ?> unit</td>
+                    <td data-label="Total Pendapatan">Rp <?= number_format($r['total_rev'],0,'.','.') ?></td>
                 </tr>
                 <?php endwhile; ?>
                 </tbody>
@@ -180,15 +180,15 @@ $top_items = $conn->query("
                     $profit_cls = $row['profit'] >= 0 ? 'color:var(--success)' : 'color:var(--danger)';
                 ?>
                 <tr>
-                    <td style="color:var(--text-muted)"><?= $no++ ?></td>
-                    <td><?= date('d M Y', strtotime($row['transaction_date'])) ?></td>
-                    <td><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong><br><small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
-                    <td><?= htmlspecialchars($row['mechanic_name'] ?: '-') ?></td>
-                    <td><?= $row['quantity'] ?></td>
-                    <td>Rp <?= number_format($row['selling_price'],0,'.','.') ?></td>
-                    <td>Rp <?= number_format($row['harga_modal'],0,'.','.') ?></td>
-                    <td>Rp <?= number_format($row['selling_price']*$row['quantity'],0,'.','.') ?></td>
-                    <td><strong style="<?= $profit_cls ?>">Rp <?= number_format($row['profit'],0,'.','.') ?></strong></td>
+                    <td data-label="ID" style="color:var(--text-muted)"><?= $no++ ?></td>
+                    <td data-label="Tanggal"><?= date('d M Y', strtotime($row['transaction_date'])) ?></td>
+                    <td data-label="Sparepart"><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong><br><small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
+                    <td data-label="Mekanik"><?= htmlspecialchars($row['mechanic_name'] ?: '-') ?></td>
+                    <td data-label="Qty"><?= $row['quantity'] ?></td>
+                    <td data-label="Harga Jual">Rp <?= number_format($row['selling_price'],0,'.','.') ?></td>
+                    <td data-label="Modal">Rp <?= number_format($row['harga_modal'],0,'.','.') ?></td>
+                    <td data-label="Pendapatan">Rp <?= number_format($row['selling_price']*$row['quantity'],0,'.','.') ?></td>
+                    <td data-label="Profit"><strong style="<?= $profit_cls ?>">Rp <?= number_format($row['profit'],0,'.','.') ?></strong></td>
                 </tr>
                 <?php endwhile; else: ?>
                 <tr><td colspan="9"><div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg><p>Tidak ada transaksi pada periode ini.</p></div></td></tr>
@@ -197,9 +197,9 @@ $top_items = $conn->query("
                 <?php if ($report && $report->num_rows > 0): ?>
                 <tfoot>
                     <tr style="background:var(--table-head);font-weight:700">
-                        <td colspan="7" style="padding:.85rem 1rem;text-align:right">TOTAL:</td>
-                        <td style="padding:.85rem 1rem">Rp <?= number_format($summary['total_revenue'],0,'.','.') ?></td>
-                        <td style="padding:.85rem 1rem;color:var(--success)">Rp <?= number_format($summary['total_profit'],0,'.','.') ?></td>
+                        <td colspan="7" style="padding:.85rem 1rem;text-align:right" data-label="Keterangan">TOTAL:</td>
+                        <td style="padding:.85rem 1rem" data-label="Total Pendapatan">Rp <?= number_format($summary['total_revenue'],0,'.','.') ?></td>
+                        <td style="padding:.85rem 1rem;color:var(--success)" data-label="Total Profit">Rp <?= number_format($summary['total_profit'],0,'.','.') ?></td>
                     </tr>
                 </tfoot>
                 <?php endif; ?>

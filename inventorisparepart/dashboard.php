@@ -114,7 +114,7 @@ $recent_trx = $conn->query("SELECT t.id, s.merk_tipe_motor, s.spek, t.quantity, 
         </div>
 
         <!-- Bottom Grid -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;flex-wrap:wrap;">
+        <div class="dash-bottom-grid">
 
             <!-- Stok Kritis -->
             <div class="content-card" style="grid-column: span 1;">
@@ -137,10 +137,10 @@ $recent_trx = $conn->query("SELECT t.id, s.merk_tipe_motor, s.spek, t.quantity, 
                             $lbl = $row['stok'] == 0 ? 'Habis' : 'Kritis';
                         ?>
                         <tr>
-                            <td><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong><br><small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
-                            <td><strong><?= $row['stok'] ?></strong></td>
-                            <td><?= $row['min_stok'] ?></td>
-                            <td><span class="badge <?= $cls ?>"><?= $lbl ?></span></td>
+                            <td data-label="Sparepart"><strong><?= htmlspecialchars($row['merk_tipe_motor']) ?></strong><br><small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
+                            <td data-label="Stok"><strong><?= $row['stok'] ?></strong></td>
+                            <td data-label="Min"><?= $row['min_stok'] ?></td>
+                            <td data-label="Status"><span class="badge <?= $cls ?>"><?= $lbl ?></span></td>
                         </tr>
                         <?php endwhile; ?>
                         </tbody>
@@ -168,14 +168,14 @@ $recent_trx = $conn->query("SELECT t.id, s.merk_tipe_motor, s.spek, t.quantity, 
                     <?php if ($recent_trx && $recent_trx->num_rows > 0): ?>
                     <div class="table-wrap">
                     <table>
-                        <thead><tr><th>#</th><th>Sparepart</th><th>Qty</th><th>Total</th></tr></thead>
+                        <thead><tr><th>ID</th><th>Sparepart</th><th>Qty</th><th>Total</th></tr></thead>
                         <tbody>
                         <?php $no=1; while($row = $recent_trx->fetch_assoc()): ?>
                         <tr>
-                            <td style="color:var(--text-muted)"><?= $no++ ?></td>
-                            <td><?= htmlspecialchars($row['merk_tipe_motor']) ?> <small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
-                            <td><?= $row['quantity'] ?></td>
-                            <td>Rp <?= number_format($row['selling_price']*$row['quantity'],0,'.','.') ?></td>
+                            <td data-label="ID"><?= $no++ ?></td>
+                            <td data-label="Sparepart"><?= htmlspecialchars($row['merk_tipe_motor']) ?> <small style="color:var(--text-muted)"><?= htmlspecialchars($row['spek']) ?></small></td>
+                            <td data-label="Qty"><?= $row['quantity'] ?></td>
+                            <td data-label="Total">Rp <?= number_format($row['selling_price']*$row['quantity'],0,'.','.') ?></td>
                         </tr>
                         <?php endwhile; ?>
                         </tbody>
